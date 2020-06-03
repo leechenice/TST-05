@@ -6,6 +6,8 @@ import java.lang.reflect.Method;
 import java.util.PriorityQueue;
 import java.util.Random;
 import java.util.Scanner;
+import java.util.Stack;
+
 class Dest {
     public static void hello() {
         System.out.println("hello");
@@ -93,12 +95,48 @@ public class TextDemo {
         }
         return heap.peek();
     }
+    public static StringBuffer findLongNumString(String s) {
+        StringBuffer nowNumStr = null;
+        StringBuffer longNumStr = null;
+        for (int i = 0; i < s.length(); i++) {
+            if (s.charAt(i) >= 48 && s.charAt(i) <= 57) {
+                if (nowNumStr == null) {
+                    nowNumStr = new StringBuffer(String.valueOf(s.charAt(i)));
+                }else {
+                    nowNumStr.append(s.charAt(i));
+                }
+                if (nowNumStr.length() > (longNumStr != null ? longNumStr.length() : 0)) {
+                    longNumStr = nowNumStr;
+                }
+            }else {
+                nowNumStr = null;
+            }
+        }
+        return longNumStr;
 
+    }
+    public boolean chkParenthesis(String A, int n) {
+        // write code here
+        Stack<Character> stack = new Stack<>();
+        for (int i = 0; i < n; i++) {
+            if (A.charAt(i) == '(') {
+                stack.push('(');
+            }else if (A.charAt(i) == ')') {
+                if (stack.empty()) return false;
+                stack.pop();
+            }else {
+                return false;
+            }
+        }
+        return stack.empty();
 
-
+    }
 
     public static void main(String[] args) {
-
+        Scanner in = new Scanner(System.in);
+        String s = in.nextLine();
+        StringBuffer s2 = findLongNumString(s);
+        System.out.println(s2.toString());
     }
 }
 

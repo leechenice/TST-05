@@ -5,9 +5,9 @@ import java.util.Scanner;
 
 public class Sort {
     static void swap (int[] arr,int i, int j) {
-        int temp = arr[i];
+        int tmp = arr[i];
         arr[i] = arr[j];
-        arr[j] = temp;
+        arr[j] = tmp;
     }
 
     static void selectionSort (int[] arr) {
@@ -74,10 +74,61 @@ public class Sort {
         }
         return count;
     }
+    public static void margeSort(int[] arr,int left, int right) {
+
+        if (left == right) return;
+        int mid = (left + right) / 2;
+        margeSort(arr,left,mid);
+        margeSort(arr,mid+1,right);
+        merge(arr,left,mid+1,right);
+
+    }
+    public static void merge(int[] arr, int leftPos, int rightPos, int rightBound) {
+
+        int mid = rightPos - 1;
+        int[] temp = new int[rightBound - leftPos + 1];
+        int k = 0;
+        int i = leftPos;
+        int j = rightPos;
+
+        while (i <= mid && j <= rightBound) {
+            temp[k++] = arr[i] <= arr[j] ? arr[i++] : arr[j++];
+        }
+
+        while (i <= mid) temp[k++] = arr[i++];
+        while (j <= rightBound) temp[k++] = arr[j++];
+
+        k = 0;
+        while (k < temp.length) arr[leftPos++] = temp[k++];
+    }
+
+    public static void quickSort(int[] arr,int left,int right) {
+
+        if (left >= right) return;
+        int mid = partition(arr,left,right);
+        quickSort(arr,left,mid-1);
+        quickSort(arr,mid+1,right);
+
+    }
+    public static int partition(int[] arr, int left, int right) {
+
+        int pivot = arr[right];
+
+        while (left < right) {
+            while (arr[left] <= pivot && left < right) left++;
+            arr[right] = arr[left];
+            while (arr[right] > pivot && left < right) right--;
+            arr[left] = arr[right];
+        }
+        arr[left] = pivot;
+        return left;
+    }
+
 
     public static void main(String[] args) {
+
         int[] arr = {10,20,8,25,35,6,18,30,5,15,28};
-        shellSort(arr);
+        quickSort(arr,0,arr.length-1);
         System.out.println(Arrays.toString(arr));
 
     }
